@@ -7,7 +7,7 @@ import 'package:flutter_application_1/pages/search_page.dart';
 class GroupDetailPage extends StatefulWidget {
   final Group group;
 
-  const GroupDetailPage({Key? key, required this.group}) : super(key: key);
+  const GroupDetailPage({super.key, required this.group});
 
   @override
   _GroupDetailPageState createState() => _GroupDetailPageState();
@@ -33,12 +33,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 secondary: const Icon(Icons.fastfood),
                 title: Text(
                   item.name,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
-                value: item.isChecked,
+                value: item.isAccomplished,
                 onChanged: (bool? value) {
                   setState(() {
-                    item.isChecked = value!;
+                    item.isAccomplished = value!;
+                    // Call api service accomplish method for this
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,
@@ -46,7 +47,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             );
           },
         ),
@@ -55,10 +56,10 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SearchPage()),
+            MaterialPageRoute(builder: (context) => const SearchPage()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.deepOrange[200],
       ),
     );

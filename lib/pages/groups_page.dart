@@ -1,21 +1,43 @@
 // groups_page.dart
 // ignore_for_file: prefer_const_constructors
 
+import '../services/apiService.dart';
 import 'package:flutter/material.dart';
 import 'group_detail_page.dart';
 import 'package:flutter_application_1/models/models.dart';
 
 class GroupsPage extends StatefulWidget {
+  const GroupsPage({super.key});
+
   @override
   _GroupsPageState createState() => _GroupsPageState();
 }
 
 class _GroupsPageState extends State<GroupsPage> {
+  final ApiService apiService = ApiService();
   List<Group> groups = [
-    Group(name: 'Группа 1', items: [Item(name: 'Хлеб'), Item(name: 'Яблоки'), Item(name: 'Молоко')]),
-    Group(name: 'Группа 2', items: [Item(name: 'Яйца'), Item(name: 'Ягодки'), Item(name: 'Сахар')]),
-    Group(name: 'Группа 3', items: [Item(name: 'Чай'), Item(name: 'Кофе'), Item(name: 'Мед')])
+    Group(id:'1', name: 'Группа 1', items: [Item(name: 'Хлеб'), Item(name: 'Яблоки'), Item(name: 'Молоко')]),
+    Group(id:'1', name: 'Группа 2', items: [Item(name: 'Яйца'), Item(name: 'Ягодки'), Item(name: 'Сахар')]),
+    Group(id:'1', name: 'Группа 3', items: [Item(name: 'Чай'), Item(name: 'Кофе'), Item(name: 'Мед')])
   ];
+
+@override
+  void initState() {
+    super.initState();
+    _populateGroups(); // Call the method to populate groups
+  }
+
+  void _populateGroups() async {
+    try {
+      List<Group> fetchedGroups = await apiService.fetchGroups();
+      setState(() {
+        groups = fetchedGroups;
+      });
+    } catch (e) {
+      print('Error fetching groups: $e');
+      // Handle error gracefully, e.g., show a snackbar or retry mechanism
+    }
+  }
 
  void _showDeleteDialog(int index) {
   showDialog(
@@ -23,7 +45,7 @@ class _GroupsPageState extends State<GroupsPage> {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text("Удалить группу"),
-        content: Text("Вы уверене, что хотите удалить группу?"),
+        content: Text("Вы уверены, что хотите удалить группу?"),
         actions: [
           TextButton(
             child: Text("Отменить"),
@@ -48,7 +70,7 @@ class _GroupsPageState extends State<GroupsPage> {
 
 
   void _showAddGroupDialog() {
-    TextEditingController _groupNameController = TextEditingController();
+    TextEditingController groupNameController = TextEditingController();
 
     showDialog(
       context: context,
@@ -56,7 +78,7 @@ class _GroupsPageState extends State<GroupsPage> {
         return AlertDialog(
           title: Text('Добавить новую группу'),
           content: TextField(
-            controller: _groupNameController,
+            controller: groupNameController,
             decoration: InputDecoration(hintText: "Название"),
           ),
           actions: <Widget>[
@@ -69,10 +91,10 @@ class _GroupsPageState extends State<GroupsPage> {
             TextButton(
               child: Text('Добавить'),
               onPressed: () {
-                if (_groupNameController.text.isNotEmpty) {
+                if (groupNameController.text.isNotEmpty) {
                   setState(() {
                     groups
-                        .add(Group(name: _groupNameController.text, items: []));
+                        .add(Group(id:'1', name: groupNameController.text, items: []));
                   });
                   Navigator.of(context).pop();
                 }
@@ -85,7 +107,7 @@ class _GroupsPageState extends State<GroupsPage> {
   }
 
   @override
-Widget build(BuildContext context) {
+Widget build(BuildContext context)  {
   return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -116,8 +138,8 @@ Widget build(BuildContext context) {
       onPressed: () {
         _showAddGroupDialog();
       },
-      child: Icon(Icons.add),
       backgroundColor: Colors.deepOrange[200],
+      child: Icon(Icons.add),
     ),
   );
 }

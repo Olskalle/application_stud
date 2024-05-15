@@ -1,22 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/apiService.dart';
+import '../models/models.dart';
 import '/pages/reg_page.dart'; 
 import 'package:flutter_application_1/pages/baza_page.dart';
 
 class LoginPage extends StatelessWidget {
+  final ApiService apiService = ApiService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  LoginPage({Key? key});
+  LoginPage({super.key, Key? key1});
 
-  void _login(BuildContext context) {
-    // Здесь ваша логика входа
+Future<void> _login(BuildContext context) async {
+  final String email = _emailController.text.trim();
+  final String password = _passwordController.text.trim();
 
-    // Временно мы просто переходим на главную страницу после входа
+  final loginModel = LoginModel(email: email, password: password);
+
+  try {
+    await apiService.login(loginModel);
+
+    // Navigate to home page if login is successful
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => BazaPage()),
+      MaterialPageRoute(builder: (context) => const BazaPage()),
+    );
+  } catch (e) {
+    // Show error message if login fails
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to login. Please check your credentials.')),
     );
   }
+}
+
+  // void _login(BuildContext context) {
+    
+  //   // // Здесь ваша логика входа
+    
+  //   // // Временно мы просто переходим на главную страницу после входа
+  //   // Navigator.pushReplacement(
+  //   //   context,
+  //   //   MaterialPageRoute(builder: (context) => const BazaPage()),
+  //   // );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +65,7 @@ class LoginPage extends StatelessWidget {
                         height: 300,
                         fit: BoxFit.cover,
                       ),
-                      Text(
+                      const Text(
                         'Fridge',
                         style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
                       ),
@@ -60,7 +86,7 @@ class LoginPage extends StatelessWidget {
                           filled: true,
                           fillColor: Colors.white,
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(12.0),
+                          contentPadding: const EdgeInsets.all(12.0),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(20.0),
@@ -68,7 +94,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
@@ -79,7 +105,7 @@ class LoginPage extends StatelessWidget {
                           filled: true,
                           fillColor: Colors.white,
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(12.0),
+                          contentPadding: const EdgeInsets.all(12.0),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(20.0),
@@ -87,7 +113,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: 50,
@@ -101,13 +127,13 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Авторизоваться',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextButton(
                       onPressed: () {
                         // Отправить пользователя на страницу регистрации
@@ -116,7 +142,7 @@ class LoginPage extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => RegistrationPage()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Зарегистрироваться',
                         style: TextStyle(fontSize: 18, color: Colors.blue),
                       ),

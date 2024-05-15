@@ -1,11 +1,42 @@
 import 'package:flutter/material.dart';
 
-class SearchPage extends StatelessWidget {
+import '../services/apiService.dart';
+
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
+    @override
+  _SearchPageState createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  final ApiService apiService = ApiService();
+  List<String> products = [
+  ];
+
+@override
+  void initState() {
+    super.initState();
+    _populateProducts(); // Call the method to populate groups
+  }
+
+  void _populateProducts() async {
+     try {
+      List<String> fetchedGroups = await apiService.fetchProducts();
+      setState(() {
+        products = fetchedGroups;
+      });
+    } catch (e) {
+      print('Error fetching groups: $e');
+      // Handle error gracefully, e.g., show a snackbar or retry mechanism
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Поиск'),
+        title: const Text('Поиск'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(46.0),
@@ -14,9 +45,9 @@ class SearchPage extends StatelessWidget {
             hintText: 'Search...',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(),
+              borderSide: const BorderSide(),
             ),
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: const Icon(Icons.search),
           ),
           onSubmitted: (String value) {
             // Здесь логика поиска

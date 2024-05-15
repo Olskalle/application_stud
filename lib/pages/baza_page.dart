@@ -8,7 +8,7 @@ import '/pages/settings_page.dart';
 import '/pages/groups_page.dart';
 
 class BazaPage extends StatefulWidget {
-  BazaPage({super.key});
+  const BazaPage({super.key});
 
   @override
   State<BazaPage> createState() => _BazaPageState();

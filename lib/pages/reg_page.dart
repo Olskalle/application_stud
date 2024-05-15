@@ -7,7 +7,7 @@ class RegistrationPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  RegistrationPage({Key? key});
+  RegistrationPage({super.key, Key? key1});
 
   void _register(BuildContext context) {
     // Здесь ваша логика регистрации

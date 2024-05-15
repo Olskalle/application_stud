@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -146,11 +148,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Профиль'),
+        title: const Text('Профиль'),
         backgroundColor: Colors.deepOrange[200],
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () => showExitConfirmation(context),
           ),
         ],
@@ -182,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 16.0),
           Container(
-            color: Color.fromARGB(103, 255, 171, 145),
+            color: const Color.fromARGB(103, 255, 171, 145),
             padding: const EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   child: Column(
                     children: [
-                      ...users.map((user) => UserTile(user: user, onRemove: () => removeUser(user))).toList(),
+                      ...users.map((user) => UserTile(user: user, onRemove: () => removeUser(user))),
                     ],
                   ),
                 ),
@@ -231,7 +233,7 @@ class UserTile extends StatefulWidget {
   final User user;
   final VoidCallback onRemove;
 
-  const UserTile({Key? key, required this.user, required this.onRemove}) : super(key: key);
+  const UserTile({super.key, required this.user, required this.onRemove});
 
   @override
   _UserTileState createState() => _UserTileState();
@@ -264,7 +266,7 @@ class _UserTileState extends State<UserTile> {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            icon: Icon(_isFavorite ? Icons.star : Icons.star_border, color: _isFavorite ? Color.fromRGBO(255, 222, 113, 1) : null),
+            icon: Icon(_isFavorite ? Icons.star : Icons.star_border, color: _isFavorite ? const Color.fromRGBO(255, 222, 113, 1) : null),
             onPressed: _toggleFavorite,
           ),
           IconButton(
@@ -277,4 +279,4 @@ class _UserTileState extends State<UserTile> {
   }
 }
 
-void main() => runApp(MaterialApp(home: ProfilePage()));
+void main() => runApp(const MaterialApp(home: ProfilePage()));

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({Key? key});
+  const NotificationsPage({super.key, Key? key1});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class NotificationsPage extends StatelessWidget {
     if (text.length <= maxLength) {
       return text;
     } else {
-      return text.substring(0, maxLength) + '...';
+      return '${text.substring(0, maxLength)}...';
     }
   }
 
